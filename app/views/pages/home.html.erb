@@ -1,0 +1,10 @@
+<h1>Swiss Chat</h1>
+<p>Find me in app/views/pages/home.html.erb</p>
+
+<% if current_user %>
+  <%= link_to "Start Chatting", rooms_path %>
+  <%= button_to "Log out", destroy_user_session_path, method: :delete %>
+<% else %>
+  <%= link_to "Log in", new_user_session_path %>
+  <%= link_to "Sign Up", new_user_registration_path %>
+<% end %>
