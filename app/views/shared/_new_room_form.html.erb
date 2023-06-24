@@ -1,0 +1,8 @@
+<% if current_user.admin? %>
+  <%= form_with(model: @room, remote: true, class: "d-flex", data: {controller: "reset-form", action: "turbo:submit-end->reset-form#reset"}) do |f| %>
+    <div class="flex">
+      <%= f.text_field :name, class:"bg-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-100 rounded w-full text-sm text-gray-300 placeholder-gray-400 bg-gray-100 pl-5 py-2", autocomplete: "off" %>
+      <%= f.submit "create", data: {disable_with: false}, class:" my-2 bg-white transition duration-150 ease-in-out rounded text-gray-800 border border-gray-300 px-3 py-2 text-xs hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-gray-800"  %>
+    </div>
+  <%end%>
+<%end%>

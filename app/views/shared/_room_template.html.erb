@@ -1,0 +1,18 @@
+<div class="mt-12">
+            <h5 class="text-center user-title">Users</h5>
+            <%= turbo_stream_from "users" %>
+            <div id="users">
+              <%= render @users%>
+            </div>
+          </div>
+          <div class="flex justify-center mt-48 mb-4 w-full">
+            <div class="relative">                  
+              <h5 class="text-center mb-3 room-title ">Rooms</h5>
+              <%= render 'shared/new_room_form'%>
+              <%= render 'shared/search_form'%>
+              <%= turbo_stream_from "rooms" %>
+              <div id="rooms">
+                <%= render @joined_rooms %>
+              </div>                    
+            </div>
+          </div>

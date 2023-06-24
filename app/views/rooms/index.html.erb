@@ -1,94 +1,95 @@
-<div class="container">
-<h4><%= current_user.email %></h4>
+<%= turbo_frame_tag "appearance_channel"%>
+<div id="appearance_channel"></div>
+  <div id="chatroom_container" class="w-full h-full">
+    <div class="flex flex-no-wrap">
+      <div class="w-64 z-40 absolute bg-gray-800 shadow md:h-full flex-col justify-between transition duration-150 ease-in-out" id="mobile-nav"  style="height: 1116px;"  data-controller="sidebar" data-sidebar-target="sidebar">
+        <button 
+          data-action="click->sidebar#toggleSidebar"
+          data-sidebar-target="openButton"
+          aria-label="toggle sidebar" id="openSideBar" class="h-10 w-10 bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 absolute right-0 mt-16 -mr-10 flex items-center shadow rounded-tr rounded-br justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 rounded focus:ring-gray-800" >
+          <svg  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-adjustments" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <circle cx="6" cy="10" r="2" />
+            <line x1="6" y1="4" x2="6" y2="8" />
+            <line x1="6" y1="12" x2="6" y2="20" />
+            <circle cx="12" cy="16" r="2" />
+            <line x1="12" y1="4" x2="12" y2="14" />
+            <line x1="12" y1="18" x2="12" y2="20" />
+            <circle cx="18" cy="7" r="2" />
+            <line x1="18" y1="4" x2="18" y2="5" />
+            <line x1="18" y1="9" x2="18" y2="20" />
+          </svg>
+        </button>
+        <button 
+          data-action="click->sidebar#toggleSidebar"
+          data-sidebar-target="closeButton"
+          aria-label="Close sidebar" id="closeSideBar" class="hidden h-10 w-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 absolute right-0 mt-16 -mr-10 flex items-center shadow rounded-tr rounded-br justify-center cursor-pointer text-white" >
+          <svg  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+        <div class="px-8">
+          <div class="h-16 w-full flex items-center">
+            <%= image_tag("swissfit.png", class: "logo w-20") %>
+            <span class="text-white font-mono">Swissfit</span>
+          </div>
+          <div class="flex flex-col items-center bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% border border-gray-100 mt-4 w-full py-6 px-4 rounded-lg">
+            <div class="h-20 w-20 rounded-full border overflow-hidden">
+              <%= image_tag(current_user.avatar_thumbnail,class:"h-full w-full")%>
+            </div>
+            <div class=''>
+              <%= render "users/status", user: current_user %>
+            </div>
+            <div class="text-sm font-semibold mt-2"><%= current_user.username%></div>
+            <div class="text-xs text-gray-500"><%= current_user.email%></div>
+          </div>
+          <div class="mt-12">
+            <h5 class="text-center user-title">Users</h5>
+            <%= turbo_stream_from "users" %>
+            <div id="users">
+              <%= render @users%>
+            </div>
+          </div>
+          <div class="flex justify-center mt-48 mb-4 w-full">
+            <div class="relative">                  
+              <h5 class="text-center mb-3 room-title ">Rooms</h5>
+              <%= render 'shared/new_room_form'%>
+              <%= render 'shared/search_form'%>
+              <%= turbo_stream_from "rooms" %>
+              <div id="rooms">
+                <%= render @joined_rooms %>
+              </div>                    
+            </div>
+          </div>
+        </div>
+    </div>
+    <div id="room_container" class="w-full flex-1 p:2 flex flex-col h-screen chat-room-cont" style="height: 1160px;">
+      <% if @single_room %>
+        
+          <div id="single_room" class=" bg-gray-800 chat-header flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
+            <div>
+              <h4 class="pl-3 pt-2 text-xl header-text ">
+                <%=@user&.username || @single_room.name %>
+              </h4>
+            </div>
+            <div class="flex items-center space-x-2">
+              <%= button_to destroy_user_session_path, method: :delete, class:"inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none" do%>
+                <i class="ri-logout-box-line text-xl"></i>
+              <% end %>
+              <%= link_to edit_user_registration_path, class:"inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none" do %>
+                <i class="ri-account-circle-fill text-xl"></i>
+              <%end%>
+            </div>
+          </div>
+          <%=turbo_stream_from @single_room %>      
+          <div id="messages" data-controller="scroll" class="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+            <%= render @messages %>
+          </div>
+          <%= render 'shared/new_message_form'%>
+      <%end%>
+    </div>
+  </div>
+</div>
 
-<h5>Users</h5>
-<%= turbo_stream_from "users" %>
-  <div id="users">
-    <%= render @users%>
-  </div>
-
-<h5>Rooms</h5>
-<%= turbo_stream_from "rooms" %>
-  <div id="rooms">
-    <%= render @rooms%>
-  </div>
-  <%= render 'layouts/new_room_form'%>
-</div>
-
-<div id="options" data-controller="visibility">
-<span
-class="absolute text-white text-4xl top-5 left-4 cursor-pointer"
-  data-action="visibility#toggleTargets"
->
-<i class="bi bi-filter-left px-2 bg-gray-900 rounded-md"></i>
-</span>
-<div data-visibility-target="hideable"
-class="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900"
->
-<div class="text-gray-100 text-xl">
-  <div class="p-2.5 mt-1 flex items-center">
-    <i class="bi bi-app-indicator px-2 py-1 rounded-md bg-blue-600"></i>
-    <h1 class="font-bold text-gray-200 text-[15px] ml-3">Swiss Chat</h1>
-    <i
-      class="bi bi-x cursor-pointer ml-28 lg:hidden"
-      onclick="openSidebar()"
-    ></i>
-  </div>
-  <div class="my-2 bg-gray-600 h-[1px]"></div>
-</div>
-<div
-  class="p-2.5 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-gray-700 text-white"
->
-  <i class="bi bi-search text-sm"></i>
-  <input
-    type="text"
-    placeholder="Search"
-    class="text-[15px] ml-4 w-full bg-transparent focus:outline-none"/>
-</div>
-<div
-  class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
->
-  <i class="bi bi-house-door-fill"></i>
-  <span class="text-[15px] ml-4 text-gray-200 font-bold">Home</span>
-</div>
-<div
-  class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
->
-  <i class="bi bi-bookmark-fill"></i>
-  <span class="text-[15px] ml-4 text-gray-200 font-bold">Bookmark</span>
-</div>
-<div class="my-4 bg-gray-600 h-[1px]"></div>
-<div
-  class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-  onclick="dropdown()"
->
-  <i class="bi bi-chat-left-text-fill"></i>
-  <div class="flex justify-between w-full items-center">
-    <span class="text-[15px] ml-4 text-gray-200 font-bold">Chatbox</span>
-    <span class="text-sm rotate-180" id="arrow">
-      <i class="bi bi-chevron-down"></i>
-    </span>
-  </div>
-</div>
-<div
-  class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
-  id="submenu"
->
-  <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
-    Social
-  </h1>
-  <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
-    Personal
-  </h1>
-  <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
-    Friends
-  </h1>
-</div>
-<div
-  class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
->
-  <i class="bi bi-box-arrow-in-right"></i>
-  <span class="text-[15px] ml-4 text-gray-200 font-bold">Logout</span>
-</div>
-</div>
-</div>

@@ -1,3 +1,18 @@
-<div>
-  <%= link_to user.email, user %>
+<% if @single_room && @single_room.participant?(@single_room, user)%>
+  <%isActive = 'active'%>
+<%else%>
+  <%isActive = ''%>
+<%end%>
+<div class="flex flex-row items-center user-val rounded-xl p-2 <%= isActive%>">
+  <div class="flex items-center justify-center">
+    <%= link_to image_tag(user.chat_avatar, class:"h-8 w-8 rounded-full"), user%>
+  </div>
+  <%= turbo_stream_from 'user_status'%>
+
+  <div>
+    <%= render "users/status", user: user %>
+  </div>
+  <div class="ml-2 text-sm font-semibold">  
+    <%= link_to user.username, user, data: {turbo: "false"}, class:" user-color" %>
+  </div>
 </div>

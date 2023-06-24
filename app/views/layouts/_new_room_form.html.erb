@@ -1,8 +1,0 @@
-<%= form_with(model: @room, remote: true, class: "d-flex") do |f| %>
-  <%= f.text_field :name, class: "form-control", autocompleter: "off" %>
-  
-  <button class="group relative h-12 w-48 overflow-hidden rounded-lg bg-white text-lg shadow">
-  <div class="absolute inset-0 w-3 bg-amber-400 transition-all duration-[250ms] ease-out group-hover:w-full"></div>
-  <%= f.submit data: {disable_with: false}, class:"relative text-black group-hover:text-white"  %>
-  </button>
-<%end%>

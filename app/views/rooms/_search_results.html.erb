@@ -1,0 +1,8 @@
+<%rooms.each do |room|%>
+  <div class="flex flex-row items-center user-val rounded-xl p-2">
+    <div class="text-sm font-semibold">  
+      <%= link_to room.name, room_path(id: room.id, name_search: params[:name_search]), data: {turbo: "false"}, class:"room-text" %>
+      <%= render 'rooms/joinable_link', room: room %>
+    </div>
+  </div>
+<%end%>

@@ -1,0 +1,9 @@
+<% if current_user.has_joined_room(room)%>
+  <%= link_to leave_room_path(room), method: :delete, data:{turbo: "false"} do %>
+    <i class="ri-chat-delete-line text-lg text-gray-300"></i>
+  <%end%>
+<%else%>
+  <%= link_to join_room_path(room), method: :delete, data:{turbo: "false"} do %>
+    <i class="ri-add-circle-fill text-lg text-gray-300"></i>
+  <%end%>
+<%end%>
