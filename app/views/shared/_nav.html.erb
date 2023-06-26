@@ -1,0 +1,13 @@
+<div id="single_room" class="bg-gray-800 chat-header flex sm:items-center justify-between py-3 border-gray-200">
+  <div>
+  <%= image_tag("swissfit.png", class: "logo w-10 ml-3") %>
+  </div>
+  <div class="flex items-center space-x-2">
+    <%= button_to destroy_user_session_path, method: :delete, class:"inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none" do%>
+      <i class="ri-logout-box-line text-xl"></i>
+    <% end %>
+    <%= link_to edit_user_registration_path, class:"inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none" do %>
+      <i class="ri-account-circle-fill text-xl"></i>
+    <%end%>
+  </div>
+</div>

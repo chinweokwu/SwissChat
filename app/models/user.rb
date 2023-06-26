@@ -5,7 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   scope :all_except, ->(user) { where.not(id: user) }
-  # boradcast_create_commit is a method that is called after a user is created
 
   has_many :messages
   has_one_attached :avatar
@@ -15,12 +14,11 @@ class User < ApplicationRecord
   validates_uniqueness_of :username, required: true, case_sensitive: false
   
   enum status: %i[offline away online]
-  enum role: %i[user admin]
+  enum role: %i[user admin].freeze, _default: 0
 
   after_create_commit { broadcast_append_to "users"}
   after_commit :add_default_avatar, on: %i[create update]
   after_update_commit { broadcast_update }
-  after_initialize :set_default_role, if: :new_record?
 
   def avatar_thumbnail
     avatar.variant(resize_to_limit: [150, 150]).processed
@@ -62,9 +60,5 @@ class User < ApplicationRecord
       filename: "default_avatar.png",
       content_type: "image/png"
     )
-  end
-
-  def set_default_role
-    self.role ||= :user
   end
 end

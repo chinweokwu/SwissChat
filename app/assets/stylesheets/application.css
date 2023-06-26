@@ -81,9 +81,31 @@
 }
 
 .header-text {
-  color: chartreuse;
+  color: black;
+  text-transform: capitalize;
+  font-size: 25px;
+  margin-top: 10px;
+  text-decoration: underline;
 }
 
 .msg-textarea {
   width: auto;
+}
+
+#search_results, #rooms {
+  height: 78px;
+  overflow-y: scroll;
+}
+
+#users {
+  height: 166px;
+  overflow-y: scroll;
+}
+
+#rooms {
+  margin-top: 20px;
+}
+
+.logo {
+  margin-left: 40px;
 }

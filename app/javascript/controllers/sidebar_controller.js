@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = ['sidebar', 'openButton', 'closeButton'];
 
   connect() {
-    this.closeSidebar();
+    this.openSidebar();
   }
 
   toggleSidebar() {

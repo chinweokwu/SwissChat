@@ -26,7 +26,7 @@ class RoomsController < ApplicationController
 
   def create
     @room = Room.create(room_params)
-    redirect_to @room
+    redirect_to rooms_path
   end
 
 
