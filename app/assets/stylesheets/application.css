@@ -92,7 +92,7 @@
   width: auto;
 }
 
-#search_results, #rooms {
+#search_results {
   height: 78px;
   overflow-y: scroll;
 }
@@ -103,7 +103,9 @@
 }
 
 #rooms {
+  height: 120px;
   margin-top: 20px;
+  overflow-y: scroll;
 }
 
 .logo {

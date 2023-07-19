@@ -1,7 +1,22 @@
-<div class="flex flex-row items-center user-val rounded-xl p-2">
-  <div class="text-sm font-semibold">  
-    <%= link_to room.name, room, data: {turbo: "false"}, class:"room-text" %>
-    <%= render 'rooms/joinable_link', room: room %>
-  </div>
+<%if room.id.eql?(current_user.current_room) %>
+  <% isActive = "active" %>
+<%else%>
+  <% isActive = "" %>
+<%end%>
+<div class="room">
+    <div class="flex flex-row items-center user-val rounded-xl p-2 <%= isActive%>">
+      <div class="text-sm font-semibold">
+        <%= turbo_frame_tag dom_id(room) do %>
+          <%= link_to room.name, room_path(room, name_search: params[:name_search]), data: {turbo: "false"}, class:"room-text" %>
+        <%end%>
+        <%= render 'rooms/joinable_link', room: room %>
+      </div>
+    </div>
+    <%= turbo_frame_tag [dom_id(room), "last_message"] do %>
+      <%= render 'rooms/last_message',  
+        last_message: last_message,
+        user: user,
+        room: room
+      %>
+    <% end %>
 </div>
-

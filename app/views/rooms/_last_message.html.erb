@@ -1,0 +1,21 @@
+<% unless last_message.nil? %>
+  <div class="row">
+    <div class=" text-white text-xs">
+      <div>
+        <em class="last-message">
+          <%= "#{last_message.user.username}: #{last_message.body}".truncate(40) %>
+        </em>
+      </div>
+      <div>
+        <%= content_tag(:em, class:"last-message-time", 
+          data: {
+            time: last_message.created_at.to_i
+            }) do %>
+              
+          <%= "#{time_ago_in_words(last_message.created_at)} ago"%>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+

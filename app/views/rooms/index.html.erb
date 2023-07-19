@@ -50,19 +50,19 @@
           <div class="mt-12">
             <h5 class="text-center user-title">Users</h5>
             <%= turbo_stream_from "users" %>
-            <div id="users">
-              <%= render @users%>
+            <div id="users" data-controller="user-list">
+              <%= render "users/users", users: @users %>
             </div>
           </div>
-          <div class="flex justify-center mt-48 mb-4 w-full">
+          <div class="flex justify-center mt-5 mb-4 w-full">
             <div class="relative">                  
               <h5 class="text-center mb-3 room-title ">Rooms</h5>
               <%= turbo_stream_from "rooms" %>
               <%= render 'shared/new_room_form'%>
               <%= render 'shared/search_form'%>
              
-              <div id="rooms">
-                <%= render @joined_rooms %>
+              <div id="rooms" data-controller="room-list">
+                <%= render 'rooms/rooms', rooms: @joined_rooms, user: current_user %>
               </div>                    
             </div>
           </div>
@@ -71,17 +71,16 @@
     
     <div id="room_container" class="w-full flex-1 p:2 flex flex-col h-screen chat-room-cont" style="height: 1122px;">
       <% if @single_room %>
-      <div>
-      <h4 class="text-xl header-text text-center ">
-        <%=@user&.username || @single_room.name %>
-
-      </h4>
-    </div>
-          <%=turbo_stream_from @single_room %>      
-          <div id="messages" data-controller="scroll" class="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
-            <%= render @messages %>
-          </div>
-          <%= render 'shared/new_message_form'%>
+        <div>
+          <h4 class="text-xl header-text text-center ">
+            <%=@user&.username || @single_room.name %>
+          </h4>
+        </div>
+        <%=turbo_stream_from @single_room %>      
+        <div id="messages" data-controller="scroll" class="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+          <%= render @messages %>
+        </div>
+        <%= render 'shared/new_message_form'%>
       <%end%>
     </div>
   </div>

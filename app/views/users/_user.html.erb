@@ -3,16 +3,24 @@
 <%else%>
   <%isActive = ''%>
 <%end%>
-<div class="flex flex-row items-center user-val rounded-xl p-2 <%= isActive%>">
-  <div class="flex items-center justify-center">
-    <%= link_to image_tag(user.chat_avatar, class:"h-8 w-8 rounded-full"), user%>
-  </div>
-  <%= turbo_stream_from 'user_status'%>
 
-  <div>
-    <%= render "users/status", user: user %>
+<div class="user <%= isActive%>">
+  <div class="flex flex-row items-center user-val rounded-xl p-2 <%= isActive%>">
+    <div class="flex items-center justify-center">
+      <%= link_to image_tag(user.chat_avatar, class:"h-8 w-8 rounded-full"), user%>
+    </div>
+    <%= turbo_stream_from 'user_status'%>
+    <div>
+      <%= render "users/status", user: user %>
+    </div>
+    <div class="ml-2 text-sm font-semibold">  
+      <%= link_to user.username, user, data: {turbo: "false"}, class:" user-color" %>
+    </div>
   </div>
-  <div class="ml-2 text-sm font-semibold">  
-    <%= link_to user.username, user, data: {turbo: "false"}, class:" user-color" %>
-  </div>
+  <%= turbo_frame_tag [dom_id(room), "user_last_message"] do %>
+    <%= render 'users/last_message',  
+      last_message: last_message, 
+      sender: sender
+    %>
+  <% end %>
 </div>

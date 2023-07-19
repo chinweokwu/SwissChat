@@ -71,7 +71,7 @@ consumer.subscriptions.create("AppearanceChannel", {
     if(!!run) {
       this.online()
       clearTimeout(timer);
-      const secs = 5;
+      const secs = 1;
       const milliSecs = 1000;
       const mins= secs * milliSecs * 60;
       const numOfMins = 5
